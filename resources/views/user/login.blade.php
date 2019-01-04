@@ -7,21 +7,26 @@
 @endsection
 
 @section('content')
-    <h1 style="margin-left:45%">{{$title}}页面</h1>
-
+    <h1 style="margin-left:45%" class="text-primary">{{$title}}页面</h1>
+    <br>
     <form action="/loginAdd" method="post">
         @csrf
-        <table border style="margin-left: 40%">
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <td>用户名</td>
-                <td><input type="text" name="name"></td>
+                <td>
+                    <input type="name" class="form-control" id="exampleInputEmail1" placeholder="用户名" name="name">
+                </td>
             </tr>
             <tr>
-                <td>密码</td>
-                <td><input type="password" name="pwd"></td>
+                <td>
+                    <input type="password" class="form-control" id="exampleInputEmail1" placeholder="密码" name="pwd">
+                </td>
             </tr>
-        </table><br>
-        <button style="margin-left: 45%;width:100px;height:30px">登陆</button>
+            </thead>
+        </table>
+        <br>
+        <button style="margin-left: 48%;" class="btn btn-primary btn-lg">登陆</button>
     </form>
 @endsection
 

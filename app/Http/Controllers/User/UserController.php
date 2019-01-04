@@ -48,6 +48,7 @@ class UserController extends Controller
 //        var_dump($res);
         if($res){
             echo '注册成功';
+            header('Location:/login');
         }else{
             echo '注册失败';
         }
@@ -77,6 +78,7 @@ class UserController extends Controller
             die('用户名不存在或密码不正确！');
         }else{
             echo "登陆成功";
+            header('Location:http://www.baidu.com');
         }
     }
 }

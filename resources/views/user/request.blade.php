@@ -7,28 +7,34 @@
 @endsection
 
 @section('content')
-    <h1 style="margin-left:45%">{{$title}}页面</h1>
+    <h1 style="margin-left:45%" class="text-primary">{{$title}}页面</h1>
     <form action="/requestAdd" method="post">
         @csrf
-        <table border style="margin-left: 40%">
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <td>用户名</td>
-                <td><input type="text" name="name"></td>
+                <td>
+                    <input type="name" class="form-control" id="exampleInputEmail1" placeholder="用户名" name="name">
+                </td>
             </tr>
             <tr>
-                <td>密码</td>
-                <td><input type="password" name="pwd"></td>
+                <td>
+                    <input type="password" class="form-control" id="exampleInputEmail1" placeholder="密码" name="pwd">
+                </td>
             </tr>
             <tr>
-                <td>确认密码</td>
-                <td><input type="password" name="pwds"></td>
+                <td>
+                    <input type="password" class="form-control" id="exampleInputEmail1" placeholder="确认密码" name="pwds">
+                </td>
             </tr>
             <tr>
-                <td>邮箱</td>
-                <td><input type="email" name="email"></td>
+                    <td>
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="邮箱" name="email">
+                </td>
             </tr>
+            </thead>
         </table><br>
-        <button style="margin-left: 45%;width:100px;height:30px">注册</button>
+        <button style="margin-left: 48%;" class="btn btn-primary btn-lg">注册</button>
     </form>
 @endsection
 

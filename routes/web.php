@@ -47,6 +47,8 @@ Route::any('/requestAdd','User\UserController@requestAdd');
 //登陆
 Route::any('/login','User\UserController@login');
 Route::any('/loginAdd','User\UserController@loginAdd');
+//boot测试
+Route::any('/bst','Order\MvcController@bst');
 
 
 
