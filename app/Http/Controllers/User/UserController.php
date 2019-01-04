@@ -26,8 +26,8 @@ class UserController extends Controller
      * 注册
      */
     public function requestAdd(Request $request){
-        echo __METHOD__;
-        echo '<pre>';print_r($_POST);echo '</pre>';
+        /*echo __METHOD__;
+        echo '<pre>';print_r($_POST);echo '</pre>';*/
         if($request->input('pwd')!=$request->input('pwds')){
             die('密码与确认密码不同');
         }else if($request->input('name')==''){
@@ -40,15 +40,15 @@ class UserController extends Controller
         $pwd=$request->input('pwd');
         $data = [
             'name'  => $request->input('name'),
-            'pwd'  => md5($pwd),
+            'pwd'  => password_hash($pwd,PASSWORD_BCRYPT),
             'email'  => $request->input('email'),
             'time'  => time(),
         ];
         $res = RequestModel::insertGetId($data);
 //        var_dump($res);
         if($res){
-            echo '注册成功';
-            header('Location:/login');
+            header("Refresh:3;url=/login");
+            echo "<h1 style=\"margin-left:45%\" class=\"text-primary\">注册成功</h1>";
         }else{
             echo '注册失败';
         }
@@ -68,17 +68,20 @@ class UserController extends Controller
      */
     public function loginAdd(Request $request){
         $name=$request->input('name');
-        $pwd=md5($request->input('pwd'));
+        $pwd=$request->input('pwd');
         $where=[
-            'name'=>$name,
-            'pwd'=>$pwd,
+            'name'=>$name
         ];
-        $data = RequestModel::where($where)->first();
+        $data=RequestModel::where($where)->first();
         if(empty($data)){
-            die('用户名不存在或密码不正确！');
+            die('用户不存在');
+        }
+        $pwd_info=$data['pwd'];
+        $pwd_res=password_verify($pwd,$pwd_info);
+        if(!$pwd_res){
+            die('密码错误');
         }else{
             echo "登陆成功";
-            header('Location:http://www.baidu.com');
         }
     }
 }
