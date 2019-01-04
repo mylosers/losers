@@ -74,7 +74,7 @@ class UserController extends Controller
         ];
         $data = RequestModel::where($where)->first();
         if(empty($data)){
-            die('用户名不存在或密码不正确');
+            die('用户名不存在或密码不正确！');
         }else{
             echo "登陆成功";
         }
