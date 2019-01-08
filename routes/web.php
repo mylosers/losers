@@ -47,8 +47,14 @@ Route::any('/requestAdd','User\UserController@requestAdd');
 //登陆
 Route::any('/login','User\UserController@login');
 Route::any('/loginAdd','User\UserController@loginAdd');
+Route::any('/loginIndex','User\UserController@index');
 //boot测试
 Route::any('/bst','Order\MvcController@bst');
+//中间件
+Route::any('/test','Vip\TestController@test')->middleware('test');
+
+//
+Route::get('/user','User\UserController@index')->middleware('check.login.token');
 
 
 

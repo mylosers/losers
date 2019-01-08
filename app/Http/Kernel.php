@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\checkLoginToken;
+use App\Http\Middleware\test;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -59,5 +61,8 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        //自定义中间件
+        'test'=>test::class,
+        'check.login.token' =>checkLoginToken::class,
     ];
 }
