@@ -4,7 +4,7 @@
     <div class="container">
         <h1>{{$goods->goods_name}}</h1>
 
-        <span> 价格： {{$goods->price / 100}}</span>
+        <span> 价格： {{$goods->goods_selfprice}}</span>
 
 
         <form class="form-inline">
@@ -13,6 +13,9 @@
                 <div class="input-group">
                     <select class="form-control">
                         <option>1</option>
+                        @for($i=1; $i<=$goods->goods_stock; $i++  )
+                            <option value="">{{$i}}</option>
+                        @endfor
                     </select>
                 </div>
             </div>
