@@ -19,9 +19,6 @@ class checkLoginToken
             header('Refresh:2;url=/login');
             echo '请先登录';
             exit;
-        }else{
-            echo '请稍后';
-            header('Refresh:2;url=/loginIndex');
         }
         return $next($request);
     }

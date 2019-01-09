@@ -53,8 +53,15 @@ Route::any('/bst','Order\MvcController@bst');
 //中间件
 Route::any('/test','Vip\TestController@test')->middleware('test');
 
-//
-Route::get('/user','User\UserController@index')->middleware('check.login.token');
+//请先登陆
+Route::any('/user','User\UserController@index')->middleware('check.login.token');
+
+//购物车
+//Route::get('/cart','Cart\IndexController@index')->middleware('check.uid');
+Route::any('/cart','Cart\IndexController@index')->middleware('check.login.token');
+Route::any('/cartAdd/{goods_id}','Cart\IndexController@add')->middleware('check.login.token');      //添加商品
+Route::any('/goods/{goods_id}','Cart\IndexController@goods')->middleware('check.login.token');      //添加商品
+Route::any('/cartDel/{goods_id}','Cart\IndexController@del')->middleware('check.login.token');      //删除商品
 
 
 
