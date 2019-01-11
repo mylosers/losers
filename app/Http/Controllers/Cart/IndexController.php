@@ -11,26 +11,27 @@ use App\Model\GoodsModel;
 class IndexController extends Controller
 {
 
+    public $uid;                    // 登录UID
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->uid = session()->get('uid');
+            return $next($request);
+        });
+
+    }
     //
     public function index(Request $request)
     {
-//        $goods = session()->get('cart_goods');
-//        if(empty($goods)){
-//            echo '购物车是空的';
-//        }else{
-//            foreach($goods as $k=>$v){
-//                echo 'Goods ID: '.$v;echo '</br>';
-//                $detail = GoodsModel::where(['goods_id'=>$v])->first()->toArray();
-//                echo '<pre>';print_r($detail);echo '</pre>';
-//            }
-//        }
-        $uid = session()->get('goods_id');
-        $cart_goods = CartModel::where(['goods_id'=>$uid])->get()->toArray();
+        $cart_goods = CartModel::where(['uid'=>$this->uid])->get()->toArray();
         if(empty($cart_goods)){
             die("购物车是空的");
         }
 
         //echo '<pre>';print_r($cart_goods);echo '</pre>';echo '<hr>';
+        $total = 0;
         if($cart_goods){
             //获取商品最新信息
             foreach($cart_goods as $k=>$v){
@@ -38,13 +39,15 @@ class IndexController extends Controller
                 $goods_info['num']  = $v['num'];
                 //echo '<pre>';print_r($goods_info);echo '</pre>';
                 $list[] = $goods_info;
+                $total += $goods_info['goods_selfprice'] * $v['num'];
             }
         }
 
         $data = [
-            'list'  => $list
+            'list'      => $list,
+            'total'     => $total
         ];
-        return view('cart.index',$data);
+        return view('goods.cart',$data);
 
     }
 
@@ -81,9 +84,22 @@ class IndexController extends Controller
 
     }
 
+    /**
+     * 判断库存
+     */
+    public function number(Request $request){
+        $goods_id = $request->input('goods_id');
+        $goods_stock = $request->input('goods_stock');
+        $store_num = GoodsModel::where(['goods_id'=>$goods_id])->value('goods_stock');
+        if($store_num<$goods_stock){
+            return 1;
+        }else{
+            return 2;
+        }
+    }
 
     /**
-     *
+     *购物车页面
      */
     public function goods($goods_id){
         $goods = GoodsModel::where(['goods_id'=>$goods_id])->first();
@@ -106,11 +122,11 @@ class IndexController extends Controller
      * 购物车添加商品
      * @return array
      */
-    public function add2(Request $request)
+    public function goodsAdd(Request $request)
     {
         $goods_id = $request->input('goods_id');
         $num = $request->input('num');
-dd($num);
+
         //检查库存
         $store_num = GoodsModel::where(['goods_id'=>$goods_id])->value('goods_stock');
         if($store_num<=0){
@@ -121,12 +137,25 @@ dd($num);
             return $response;
         }
 
+        //检查购物车重复商品
+        $cart_goods = CartModel::where(['uid'=>$this->uid])->get()->toArray();
+        if($cart_goods){
+            $goods_id_arr = array_column($cart_goods,'goods_id');
+
+            if(in_array($goods_id,$goods_id_arr)){
+                $response = [
+                    'errno' => 5002,
+                    'msg'   => '商品已在购物车中，请勿重复添加'
+                ];
+                return $response;
+            }
+        }
         //写入购物车表
         $data = [
             'goods_id'  => $goods_id,
             'num'       => $num,
             'add_time'  => time(),
-            'uid'       => session()->get('uid'),
+            'uid'       => $this->uid,
             'session_token' => session()->get('u_token')
         ];
 
@@ -152,22 +181,13 @@ dd($num);
      */
     public function del($goods_id)
     {
-        //判断 商品是否在 购物车中
-        $goods = session()->get('cart_goods');
-        echo '<pre>';print_r($goods);echo '</pre>';die;
-
-        if(in_array($goods_id,$goods)){
-            //执行删除
-            foreach($goods as $k=>$v){
-                if($goods_id == $v){
-                    session()->pull('cart_goods.'.$k);
-                }
-            }
+        $rs = CartModel::where(['uid'=>$this->uid,'goods_id'=>$goods_id])->delete();
+        //echo '商品ID:  '.$abc . ' 删除成功1';
+        if($rs){
+            echo '商品ID:  '.$goods_id . ' 删除成功1';
         }else{
-            //不在购物车中
-            die("商品不在购物车中");
+            echo '商品ID:  '.$goods_id . ' 删除成功2';
         }
-
     }
 
 

@@ -58,10 +58,19 @@ Route::any('/user','User\UserController@index')->middleware('check.login.token')
 
 //购物车
 //Route::get('/cart','Cart\IndexController@index')->middleware('check.uid');
-Route::any('/cart','Cart\IndexController@index')->middleware('check.login.token');
-Route::any('/cartAdd/{goods_id}','Cart\IndexController@add')->middleware('check.login.token');      //添加商品
+Route::any('/goods','Cart\IndexController@index')->middleware('check.login.token');
+Route::any('/cartAdd2/{goods_id}','Cart\IndexController@add')->middleware('check.login.token');      //添加商品
+Route::any('/goodsAdd','Cart\IndexController@goodsAdd')->middleware('check.login.token');      //添加商品
+Route::any('/number','Cart\IndexController@number')->middleware('check.login.token');      //判断库存
 Route::any('/goods/{goods_id}','Cart\IndexController@goods')->middleware('check.login.token');      //添加商品
-Route::any('/cartDel/{goods_id}','Cart\IndexController@del')->middleware('check.login.token');      //删除商品
+Route::any('/goodsDel/{goods_id}','Cart\IndexController@del')->middleware('check.login.token');      //删除商品
+//订单
+Route::any('/order','Cart\OrderController@orderList');           //订单列表
+Route::any('/orderAdd','Cart\OrderController@add');           //下单
+//支付
+Route::get('/pay/o/{oid}','Pay\IndexController@order')->middleware('check.login.token');
+//个人中心
+Route::get('/user','User\UserController@index')->middleware('check.login.token');        //个人中心
 
 
 

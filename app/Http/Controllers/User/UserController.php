@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
 class UserController extends Controller
 {
     public function index(){
-        echo 1;die;
+        return view('user/user');
     }
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -90,6 +90,7 @@ class UserController extends Controller
             setcookie('token',$token,time()+86400,'/login','',false,true);
 
             $request->session()->put('u_token',$token);
+            $request->session()->put('uid',$data->id);
         }
     }
 }

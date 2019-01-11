@@ -9,7 +9,7 @@ class CartModel extends Model
 {
     //
 
-    public $table = 'shop_cart';
+    public $table = 'cart';
     public $timestamps = false;
 
     public function goodsInfo($goods_id)
