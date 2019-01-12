@@ -73,6 +73,8 @@ Route::any('/order','Cart\OrderController@orderList');           //订单列表
 Route::any('/orderAdd','Cart\OrderController@add');           //下单
 //支付
 Route::get('/pay/o/{oid}','Pay\IndexController@order')->middleware('check.login.token');
+Route::get('/pay/alipay/test','Pay\AlipayController@test');         //测试
+Route::post('/pay/alipay/notify','Pay\AlipayController@notify');        //支付宝支付 通知回调
 //个人中心
 Route::get('/user','User\UserController@index')->middleware('check.login.token');        //个人中心
 
