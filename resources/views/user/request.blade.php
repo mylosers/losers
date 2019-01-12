@@ -1,10 +1,4 @@
-@extends('layout.mama')
-
-@section('title') {{$title}}    @endsection
-
-@section('header')
-    @parent
-@endsection
+@extends('layout.bst')
 
 @section('content')
     <h1 style="margin-left:45%" class="text-primary">{{$title}}页面</h1>
@@ -36,8 +30,8 @@
         </table><br>
         <button style="margin-left: 48%;" class="btn btn-primary btn-lg">注册</button>
     </form>
-@endsection
 
+@endsection
 
 @section('footer')
     @parent
