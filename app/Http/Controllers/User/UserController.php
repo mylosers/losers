@@ -84,13 +84,14 @@ class UserController extends Controller
         if(!$pwd_res){
             die('密码错误');
         }else{
-            echo "登陆成功";
+            echo "登陆成功，正在跳转";
             $token = substr(md5(time().mt_rand(1,99999)),10,10);
             setcookie('uid',$data['u_id'],time()+86400,'/','',false,true);
             setcookie('token',$token,time()+86400,'/login','',false,true);
 
             $request->session()->put('u_token',$token);
             $request->session()->put('uid',$data->id);
+            header("Refresh:3;url=/index");
         }
     }
 
