@@ -27,7 +27,9 @@ class IndexController extends Controller
     {
         $cart_goods = CartModel::where(['uid'=>$this->uid])->get()->toArray();
         if(empty($cart_goods)){
-            die("购物车是空的");
+            header('Refresh:2;url=/goodsList');
+            echo ("购物车是空的，正在跳转");
+            die;
         }
 
         //echo '<pre>';print_r($cart_goods);echo '</pre>';echo '<hr>';
@@ -52,6 +54,15 @@ class IndexController extends Controller
     }
 
 
+    //商品列表
+    public function goodsList(){
+        $goods = GoodsModel::where(['goods_new'=>1])->get()->toArray();
+        $data=[
+            'data'=>$goods
+        ];
+        return view('goods.goodslist',$data);
+    }
+
     /**
      * 添加商品
      */
@@ -62,6 +73,7 @@ class IndexController extends Controller
         //是否已在购物车中
         if(!empty($cart_goods)){
             if(in_array($goods_id,$cart_goods)){
+                header('Refresh:2;url=/goodsList');
                 echo '已存在购物车中';
                 exit;
             }
@@ -184,9 +196,10 @@ class IndexController extends Controller
         $rs = CartModel::where(['uid'=>$this->uid,'goods_id'=>$goods_id])->delete();
         //echo '商品ID:  '.$abc . ' 删除成功1';
         if($rs){
-            echo '商品ID:  '.$goods_id . ' 删除成功1';
+            header('Refresh:2;url=/goods');
+            echo '商品ID:  '.$goods_id . ' 删除成功，正在跳转';
         }else{
-            echo '商品ID:  '.$goods_id . ' 删除成功2';
+            echo '商品ID:  '.$goods_id . ' 删除失败';
         }
     }
 

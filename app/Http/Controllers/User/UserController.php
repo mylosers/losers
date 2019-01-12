@@ -93,4 +93,12 @@ class UserController extends Controller
             $request->session()->put('uid',$data->id);
         }
     }
+
+    /**
+     * 退出
+     */
+    public function exits(){
+        header("Refresh:3;url=/index");
+        echo "正在退出，请稍后";
+    }
 }

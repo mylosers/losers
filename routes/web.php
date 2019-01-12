@@ -44,6 +44,8 @@ Route::any('/layout','Order\LayouController@layout');
 //注册
 Route::any('/request','User\UserController@request');
 Route::any('/requestAdd','User\UserController@requestAdd');
+//退出
+Route::any('/exit','User\UserController@exits');
 //登陆
 Route::any('/login','User\UserController@login');
 Route::any('/loginAdd','User\UserController@loginAdd');
@@ -55,10 +57,12 @@ Route::any('/test','Vip\TestController@test')->middleware('test');
 
 //请先登陆
 Route::any('/user','User\UserController@index')->middleware('check.login.token');
-
+//首页
+Route::any('/index','Index\indexController@index');
 //购物车
 //Route::get('/cart','Cart\IndexController@index')->middleware('check.uid');
 Route::any('/goods','Cart\IndexController@index')->middleware('check.login.token');
+Route::any('/goodsList','Cart\IndexController@goodsList')->middleware('check.login.token'); //商品列表
 Route::any('/cartAdd2/{goods_id}','Cart\IndexController@add')->middleware('check.login.token');      //添加商品
 Route::any('/goodsAdd','Cart\IndexController@goodsAdd')->middleware('check.login.token');      //添加商品
 Route::any('/number','Cart\IndexController@number')->middleware('check.login.token');      //判断库存

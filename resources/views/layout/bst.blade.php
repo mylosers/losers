@@ -21,29 +21,29 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">首页</a>
+                <a class="navbar-brand" href="/index">首页</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">分类1</a></li>
-                    <li><a href="#">分类2</a></li>
-                    <li><a href="#">分类3</a></li>
+                    <li><a href="/goodsList">商品列表</a></li>
+                    <li><a href="/goods">购物车</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人中心 <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">我的订单</a></li>
+                            <li><a href="/order">我的订单</a></li>
                             <li><a href="#">待收货</a></li>
-                            <li><a href="#">Something else here</a></li>
+                            <li><a href="/user">个人中心</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">Nav header</li>
                             <li><a href="#">Separated link</a></li>
                             <li><a href="#">One more separated link</a></li>
                         </ul>
                     </li>
+                    <li><a href="/request">注册</a></li>
                     <li><a href="/login">登录</a></li>
-                    <li><a href="/logou">退出</a></li>
+                    <li><a href="/exit">退出</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

@@ -22,11 +22,13 @@ class IndexController extends Controller
         //查询订单
         $order_info = OrderModel::where(['oid'=>$oid])->first();
         if(!$order_info){
-            die("订单 ".$oid. "不存在！");
+            header('Refresh:2;url=/order');
+            echo ("订单 ".$oid. "不存在！");die;
         }
         //检查订单状态 是否已支付 已过期 已删除
         if($order_info->pay_time > 0){
-            die("此订单已被支付，无法再次支付");
+            header('Refresh:2;url=/order');
+            echo ("此订单已被支付，无法再次支付");die;
         }
 
         //调起支付宝支付

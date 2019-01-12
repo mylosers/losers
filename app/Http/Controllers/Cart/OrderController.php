@@ -26,7 +26,8 @@ class OrderController extends Controller
         //查询购物车商品
         $cart_goods = CartModel::where(['uid'=>session()->get('uid')])->orderBy('id','desc')->get()->toArray();
         if(empty($cart_goods)){
-            die("购物车中无商品");
+            header('Refresh:2;url=/goodsList');
+            echo ("购物车中无商品");
         }
         $order_amount = 0;
         foreach($cart_goods as $k=>$v){
