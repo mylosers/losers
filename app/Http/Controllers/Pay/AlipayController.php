@@ -16,7 +16,7 @@ class AlipayController extends Controller
     public $app_id = '2016091900549936';
     public $gate_way = 'https://openapi.alipaydev.com/gateway.do';
     public $notify_url = 'http://laravel.myloser.club/pay/alipay/notify';
-    public $return_url = 'http://laravel.myloser.club/user';
+    public $return_url = 'http://laravel.myloser.club/order';
     public $rsaPrivateKeyFilePath = './key/priv.key';
     public $aliPubKey = './key/ali_pub.key';
 
