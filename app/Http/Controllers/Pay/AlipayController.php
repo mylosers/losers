@@ -77,10 +77,11 @@ class AlipayController extends Controller
             'sign_type'   => 'RSA2',
             'timestamp'   => date('Y-m-d H:i:s'),
             'version'   => '1.0',
-            'notify_url'   => $this->notify_url,
-            'return_url' => $this->return_url,
+            'notify_url'   => $this->notify_url,        //异步通知地址
+            'return_url'   => $this->return_url,        // 同步通知地址
             'biz_content'   => json_encode($bizcont),
         ];
+
         //签名
         $sign = $this->rsaSign($data);
         $data['sign'] = $sign;
@@ -88,10 +89,12 @@ class AlipayController extends Controller
         foreach($data as $k=>$v){
             $param_str .= $k.'='.urlencode($v) . '&';
         }
+
         $url = rtrim($param_str,'&');
         $url = $this->gate_way . $url;
         header("Location:".$url);
     }
+
 
 
     public function rsaSign($params) {
