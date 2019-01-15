@@ -100,7 +100,7 @@ class AlipayController extends Controller
 
     protected function sign($data) {
 
-        $priKey = file_get_contents($this->aliPubKey);
+        $priKey = file_get_contents($this->rsaPrivateKeyFilePath);
         $res = openssl_get_privatekey($priKey);
 
         ($res) or die('您使用的私钥格式错误，请检查RSA私钥配置');
@@ -246,7 +246,7 @@ class AlipayController extends Controller
         $params['sign'] = null;
 
         //读取公钥文件
-        $pubKey = file_get_contents($this->rsaPrivateKeyFilePath);
+        $pubKey = file_get_contents($this->aliPubKey);
         $pubKey = "-----BEGIN PUBLIC KEY-----\n" .
             wordwrap($pubKey, 64, "\n", true) .
             "\n-----END PUBLIC KEY-----";
