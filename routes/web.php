@@ -74,6 +74,7 @@ Route::any('/orderAdd','Cart\OrderController@add');           //下单
 //支付
 Route::any('/pay/{oid}','Pay\AlipayController@pay')->middleware('check.login.token');
 //Route::any('/pay','Pay\AlipayController@test');         //测试
-Route::any('/pay/alipay/notify','Pay\AlipayController@aliNotify');        //支付宝支付 通知回调
+Route::any('/pay/alipay/notify','Pay\AlipayController@notify');        //支付宝支付 通知回调 异步
+Route::any('/pay/alipay/returns','Pay\AlipayController@aliReturn');        //支付宝支付 通知回调 同步
 //个人中心
 Route::any('/user','User\UserController@index')->middleware('check.login.token');        //个人中心

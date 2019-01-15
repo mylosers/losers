@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Pay;
 
 use App\Model\OrderModel;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+    use App\Http\Controllers\Controller;
 
-use GuzzleHttp\Client;
+    use GuzzleHttp\Client;
 
 class AlipayController extends Controller
 {
@@ -178,7 +178,7 @@ class AlipayController extends Controller
     {
 
 
-        header('Refresh:2;url=/order/list');
+        header('Refresh:2;url=/order');
         echo "订单： ".$_GET['out_trade_no'] . ' 支付成功，正在跳转';
 
 //        echo '<pre>';print_r($_GET);echo '</pre>';die;
@@ -204,6 +204,7 @@ class AlipayController extends Controller
     {
 
         $data = json_encode($_POST);
+        dd($data);die;
         $log_str = '>>>> '.date('Y-m-d H:i:s') . $data . "<<<<\n\n";
         //记录日志
         file_put_contents('logs/alipay.log',$log_str,FILE_APPEND);
