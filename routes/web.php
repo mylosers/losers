@@ -72,8 +72,8 @@ Route::any('/goodsDel/{goods_id}','Cart\IndexController@del')->middleware('check
 Route::any('/order','Cart\OrderController@orderList');           //订单列表
 Route::any('/orderAdd','Cart\OrderController@add');           //下单
 //支付
-Route::any('/pay/o/{oid}','Pay\IndexController@order')->middleware('check.login.token');
-Route::any('/pay','Pay\AlipayController@test');         //测试
+Route::any('/pay/{oid}','Pay\AlipayController@pay')->middleware('check.login.token');
+//Route::any('/pay','Pay\AlipayController@test');         //测试
 Route::any('/pay/alipay/notify','Pay\AlipayController@notify');        //支付宝支付 通知回调
 //个人中心
 Route::any('/user','User\UserController@index')->middleware('check.login.token');        //个人中心
