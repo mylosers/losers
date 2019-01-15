@@ -232,8 +232,7 @@ class AlipayController extends Controller
                 'plat'          => 1,      //平台编号 1支付宝 2微信
             ];
 
-            $ress=OrderModel::where(['oid'=>$oid])->update($info);
-            dd($ress);
+            OrderModel::where(['oid'=>$oid])->update($info);
         }
         //处理订单逻辑
         $this->dealOrder($_POST);
