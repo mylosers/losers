@@ -17,7 +17,8 @@ class AlipayController extends Controller
     public $gate_way = 'https://openapi.alipaydev.com/gateway.do';
     public $notify_url = 'http://laravel.myloser.club/pay/alipay/notify';
     public $return_url = 'http://laravel.myloser.club/user';
-    public $rsaPrivateKeyFilePath = '/key/priv.key';
+    public $rsaPrivateKeyFilePath = './key/priv.key';
+    public $aliPubKey = './key/ali_pub.key';
 
 
     /**
@@ -99,7 +100,7 @@ class AlipayController extends Controller
 
     protected function sign($data) {
 
-        $priKey = file_get_contents($this->rsaPrivateKeyFilePath);
+        $priKey = file_get_contents($this->aliPubKey);
         $res = openssl_get_privatekey($priKey);
 
         ($res) or die('您使用的私钥格式错误，请检查RSA私钥配置');
