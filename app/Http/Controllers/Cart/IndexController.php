@@ -16,6 +16,7 @@ class IndexController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth');
         $this->middleware(function ($request, $next) {
             $this->uid = session()->get('uid');
             return $next($request);

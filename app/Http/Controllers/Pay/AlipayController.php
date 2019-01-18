@@ -204,7 +204,6 @@ class AlipayController extends Controller
     {
 
         $data = json_encode($_POST);
-        dd($data);die;
         $log_str = '>>>> '.date('Y-m-d H:i:s') . $data . "<<<<\n\n";
         //记录日志
         file_put_contents('logs/alipay.log',$log_str,FILE_APPEND);

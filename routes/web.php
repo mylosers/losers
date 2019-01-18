@@ -56,25 +56,28 @@ Route::any('/bst','Order\MvcController@bst');
 Route::any('/test','Vip\TestController@test')->middleware('test');
 
 //请先登陆
-Route::any('/user','User\UserController@index')->middleware('check.login.token');
+Route::any('/user','User\UserController@index');
 //首页
 Route::any('/index','Index\indexController@index');
 //购物车
 //Route::get('/cart','Cart\IndexController@index')->middleware('check.uid');
-Route::any('/goods','Cart\IndexController@index')->middleware('check.login.token');
-Route::any('/goodsList','Cart\IndexController@goodsList')->middleware('check.login.token'); //商品列表
-Route::any('/cartAdd2/{goods_id}','Cart\IndexController@add')->middleware('check.login.token');      //添加商品
-Route::any('/goodsAdd','Cart\IndexController@goodsAdd')->middleware('check.login.token');      //添加商品
-Route::any('/number','Cart\IndexController@number')->middleware('check.login.token');      //判断库存
-Route::any('/goods/{goods_id}','Cart\IndexController@goods')->middleware('check.login.token');      //添加商品
-Route::any('/goodsDel/{goods_id}','Cart\IndexController@del')->middleware('check.login.token');      //删除商品
+Route::any('/goods','Cart\IndexController@index');
+Route::any('/goodsList','Cart\IndexController@goodsList'); //商品列表
+Route::any('/cartAdd2/{goods_id}','Cart\IndexController@add');      //添加商品
+Route::any('/goodsAdd','Cart\IndexController@goodsAdd');      //添加商品
+Route::any('/number','Cart\IndexController@number');      //判断库存
+Route::any('/goods/{goods_id}','Cart\IndexController@goods');      //添加商品
+Route::any('/goodsDel/{goods_id}','Cart\IndexController@del');      //删除商品
 //订单
 Route::any('/order','Cart\OrderController@orderList');           //订单列表
 Route::any('/orderAdd','Cart\OrderController@add');           //下单
 //支付
-Route::any('/pay/{oid}','Pay\AlipayController@pay')->middleware('check.login.token');
+Route::any('/pay/{oid}','Pay\AlipayController@pay');
 //Route::any('/pay','Pay\AlipayController@test');         //测试
 Route::any('/pay/alipay/notify','Pay\AlipayController@notify');        //支付宝支付 通知回调 异步
 Route::any('/pay/alipay/returns','Pay\AlipayController@aliReturn');        //支付宝支付 通知回调 同步
 //个人中心
-Route::any('/user','User\UserController@index')->middleware('check.login.token');        //个人中心
+Route::any('/user','User\UserController@index');        //个人中心
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
