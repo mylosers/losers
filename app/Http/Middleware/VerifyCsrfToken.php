@@ -13,6 +13,8 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-       '/one'
+       '/pay/alipay/notify',
+        'weixin/valid',
+        'weixin/valid1',
     ];
 }
