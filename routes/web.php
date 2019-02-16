@@ -63,6 +63,9 @@ Route::any('/index','Index\indexController@index');
 //Route::get('/cart','Cart\IndexController@index')->middleware('check.uid');
 Route::any('/goods','Cart\IndexController@index');
 Route::any('/goodsList','Cart\IndexController@goodsList'); //商品列表
+Route::any('/goodsSelect','Cart\IndexController@goodsSelect'); //商品搜索
+Route::any('/set','Cart\IndexController@set'); //商品搜索
+Route::any('/get','Cart\IndexController@get'); //商品搜索
 Route::any('/cartAdd2/{goods_id}','Cart\IndexController@add');      //添加商品
 Route::any('/goodsAdd','Cart\IndexController@goodsAdd');      //添加商品
 Route::any('/number','Cart\IndexController@number');      //判断库存
@@ -82,6 +85,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+//在线订座
+Route::get('/movie/seat','Movie\IndexController@index');
 //微信
 Route::get('/weixin/test','Weixin\WeixinController@test');
 Route::get('/weixin/valid','Weixin\WeixinController@validToken');
