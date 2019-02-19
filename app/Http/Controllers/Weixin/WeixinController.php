@@ -76,9 +76,9 @@ class WeixinController extends Controller
                 $id = WeixinUser::insertGetId($user_data);      //保存用户信息
                 var_dump($id);
             }
-            if($xml->EventKey==''){
-                $this->attention($openid,$user_info);
-            }
+            // 文本消息
+            $str="<xml><ToUserName>< ![CDATA[".$openid."] ]></ToUserName><FromUserName>< ![CDATA[".$user_info['nickname']."] ]></FromUserName><CreateTime>".time()."</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType><Content>< ![CDATA[您好，欢迎关注我的微信公众号，更多功能敬请期待] ]></Content></xml>";
+            echo $str;
         }elseif($event=="CLICK"){
             if($xml->EventKey=='kefu01'){
                 $this->kefu01($openid,$xml->ToUserName);
@@ -100,13 +100,6 @@ class WeixinController extends Controller
         // 文本消息
         $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$from.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. 'Hello World, 现在时间'. date('Y-m-d H:i:s') .']]></Content></xml>';
         echo $xml_response;
-    }
-    //关注回复
-    public function attention($openid,$from)
-    {
-        // 文本消息
-        $str="<xml><ToUserName>< ![CDATA[".$openid."] ]></ToUserName><FromUserName>< ![CDATA[".$from['nickname']."] ]></FromUserName><CreateTime>".time()."</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType><Content>< ![CDATA[您好，欢迎关注我的微信公众号，更多功能敬请期待] ]></Content></xml>";
-        echo $str;
     }
 
 
