@@ -151,8 +151,8 @@ class WeixinController extends Controller
             "button"    => [
                 [
                     "type"  => "view",      // view类型 跳转指定 URL
-                    "name"  => "我的qq空间",
-                    "url"   => "https://user.qzone.qq.com/3092256637/infocenter"
+                    "name"  => "Lening222",
+                    "url"   => "https://www.baidu.com"
                 ]
             ]
         ];
