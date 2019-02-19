@@ -76,6 +76,8 @@ class WeixinController extends Controller
                 $id = WeixinUser::insertGetId($user_data);      //保存用户信息
                 var_dump($id);
             }
+            $str="<xml><ToUserName>< ![CDATA[".$openid."] ]></ToUserName> <FromUserName>< ![CDATA[".$user_info['nickname']."] ]></FromUserName> <CreateTime>".time()."</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType> <Content>< ![CDATA[您好，欢迎关注我的微信公众号，更多功能敬请期待] ]></Content> </xml>";
+            echo $str;
         }
 
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
@@ -149,7 +151,7 @@ class WeixinController extends Controller
 
         $data = [
             "button"    => [
-                    [
+                [
                     "name" => "测试功能",
                     "sub_button" => [
                         [
@@ -159,10 +161,10 @@ class WeixinController extends Controller
                             "sub_button"=> [ ]
                         ],
                         [
-                        "type" =>  "pic_photo_or_album",
-                        "name" => "拍照或者相册发图",
-                        "key" => "rselfmenu_1_1",
-                        "sub_button" => [ ]
+                            "type" =>  "pic_photo_or_album",
+                            "name" => "拍照或者相册发图",
+                            "key" => "rselfmenu_1_1",
+                            "sub_button" => [ ]
                         ],
                         [
                             "type" => "pic_weixin",
@@ -170,29 +172,29 @@ class WeixinController extends Controller
                             "key" => "rselfmenu_1_2",
                             "sub_button" => [ ]
                         ]
-                        ]
-                    ],
-                    [
-                        "name" => "菜单",
-                        "sub_button" => [
-                            [
-                                "name" => "发送位置",
-                                "type" => "location_select",
-                                "key" => "rselfmenu_2_0"
-                            ],
-                            /*[
-                                "type" => "media_id",
-                                "name" => "图片",
-                                "media_id" => "MEDIA_ID1"
-                            ],
-                            [
-                                "type" => "view_limited",
-                                "name" => "图文消息",
-                                "media_id" => "MEDIA_ID2"
-                            ]*/
-                        ]
+                    ]
+                ],
+                [
+                    "name" => "菜单",
+                    "sub_button" => [
+                        [
+                            "name" => "发送位置",
+                            "type" => "location_select",
+                            "key" => "rselfmenu_2_0"
+                        ],
+                        /*[
+                            "type" => "media_id",
+                            "name" => "图片",
+                            "media_id" => "MEDIA_ID1"
+                        ],
+                        [
+                            "type" => "view_limited",
+                            "name" => "图文消息",
+                            "media_id" => "MEDIA_ID2"
+                        ]*/
                     ]
                 ]
+            ]
         ];
 
 
