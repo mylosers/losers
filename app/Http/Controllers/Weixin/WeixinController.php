@@ -157,11 +157,15 @@ class WeixinController extends Controller
                 ],*/
 
             "button"    => [
-                    "name" => "caidan",
+                [
+                    "name" => "menu",
                     "sub_button" => [
+                        [
                         "type" => "view",
-                        "name" => "sousuo",
+                        "name" => "百度",
                         "url" => "http://www.baidu.com/"
+                            ]
+                        ]
                     ]
                 ]
         ];
