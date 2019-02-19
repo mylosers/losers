@@ -47,6 +47,14 @@ class WeixinController extends Controller
         //var_dump($xml);echo '<hr>';
         $openid = $xml->FromUserName;               //用户openid
 
+        if(isset($xml->MsgType)){
+            if($xml->MsgType=="text"){
+                $msg=$xml->Content;
+                $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[".$msg.", 现在时间'. date('Y-m-d H:i:s') .']]></Content></xml>';
+                echo $xml_response;exit;
+            }
+        }
+
         if($event=='subscribe'){
             $sub_time = $xml->CreateTime;               //扫码关注时间
 
