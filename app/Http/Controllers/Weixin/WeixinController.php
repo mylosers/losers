@@ -79,6 +79,10 @@ class WeixinController extends Controller
             if($xml->EventKey==''){
                 $this->kefu01($openid,$user_info);
             }
+        }elseif($event=="CLICK"){
+            if($xml->EventKey=='kefu01'){
+                $this->kefu01($openid,$xml->ToUserName);
+            }
         }
 
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
@@ -91,10 +95,10 @@ class WeixinController extends Controller
      * @param $openid   用户openid
      * @param $from     开发者公众号id 非 APPID
      */
-    public function kefu01($openid,$user_info)
+    public function kefu01($openid,$from)
     {
         // 文本消息
-        $str="<xml><ToUserName>< ![CDATA[".$openid."] ]></ToUserName> <FromUserName>< ![CDATA[".$user_info['nickname']."] ]></FromUserName><CreateTime>".time()."</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType><Content>< ![CDATA[您好，欢迎关注我的微信公众号，更多功能敬请期待] ]></Content></xml>";
+        $str="<xml><ToUserName>< ![CDATA[".$openid."] ]></ToUserName> <FromUserName>< ![CDATA[".$from['nickname']."] ]></FromUserName><CreateTime>".time()."</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType><Content>< ![CDATA[您好，欢迎关注我的微信公众号，更多功能敬请期待] ]></Content></xml>";
         echo $str;
     }
 
@@ -195,6 +199,11 @@ class WeixinController extends Controller
                             "type" => "location_select",
                             "key" => "rselfmenu_2_0"
                         ],
+                        [
+                            "name" => "回复时间",
+                            'type' => "click",
+                            "key" => "kefu01"
+                        ]
                         /*[
                             "type" => "media_id",
                             "name" => "图片",
