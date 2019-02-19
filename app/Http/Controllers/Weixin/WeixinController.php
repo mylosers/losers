@@ -148,27 +148,47 @@ class WeixinController extends Controller
         $client = new GuzzleHttp\Client(['base_uri' => $url]);
 
         $data = [
-            /*"button"    => [
-                [
-                    "type"  => "view",      // view类型 跳转指定 URL
-                    "name"  => "baidu",
-                    "url"   => "https://www.baidu.com"
-                ],
-                ],*/
-
             "button"    => [
-                [
-                    "type"  => "view",      // view类型 跳转指定 URL
-                    "name"  => "百度",
-                    "url"   => "https://www.baidu.com"
-                ],
-                [
-                    "name" => "菜单",
+                    [
+                    "name" => "测试功能",
                     "sub_button" => [
                         [
-                        "type" => "view",
-                        "name" => "百度",
-                        "url" => "http://www.baidu.com/"
+                            "type"  => "pic_sysphoto",      // view类型 跳转指定 URL
+                            "name"  => "系统拍照发图",
+                            "key"   => "rselfmenu_1_0",
+                            "sub_button"=> [ ]
+                        ],
+                        [
+                        "type" =>  "pic_photo_or_album",
+                        "name" => "拍照或者相册发图",
+                        "key" => "rselfmenu_1_1",
+                        "sub_button" => [ ]
+                        ],
+                        [
+                            "type" => "pic_weixin",
+                            "name" => "微信相册发图",
+                            "key" => "rselfmenu_1_2",
+                            "sub_button" => [ ]
+                        ]
+                        ]
+                    ],
+                    [
+                        "name" => "菜单",
+                        "sub_button" => [
+                            [
+                                "name" => "发送位置",
+                                "type" => "location_select",
+                                "key" => "rselfmenu_2_0"
+                            ],
+                            [
+                                "type" => "media_id",
+                                "name" => "图片",
+                                "media_id" => "MEDIA_ID1"
+                            ],
+                            [
+                                "type" => "view_limited",
+                                "name" => "图文消息",
+                                "media_id" => "MEDIA_ID2"
                             ]
                         ]
                     ]
