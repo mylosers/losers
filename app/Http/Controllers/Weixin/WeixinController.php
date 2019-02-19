@@ -76,14 +76,27 @@ class WeixinController extends Controller
                 $id = WeixinUser::insertGetId($user_data);      //保存用户信息
                 var_dump($id);
             }
-            $str="<xml><ToUserName>< ![CDATA[".$openid."] ]></ToUserName> <FromUserName>< ![CDATA[".$user_info['nickname']."] ]></FromUserName> <CreateTime>".time()."</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType> <Content>< ![CDATA[您好，欢迎关注我的微信公众号，更多功能敬请期待] ]></Content> </xml>";
-            echo $str;
+            if($xml->EventKey==''){
+                $this->kefu01($openid,$user_info);
+            }
         }
 
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
     }
 
+
+    /**
+     * 客服处理
+     * @param $openid   用户openid
+     * @param $from     开发者公众号id 非 APPID
+     */
+    public function kefu01($openid,$user_info)
+    {
+        // 文本消息
+        $str="<xml><ToUserName>< ![CDATA[".$openid."] ]></ToUserName> <FromUserName>< ![CDATA[".$user_info['nickname']."] ]></FromUserName><CreateTime>".time()."</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType><Content>< ![CDATA[您好，欢迎关注我的微信公众号，更多功能敬请期待] ]></Content></xml>";
+        echo $str;
+    }
 
 
 
