@@ -63,7 +63,6 @@ class WeixinController extends Controller
             }elseif($xml->MsgType=='voice'){        //处理语音信息
                 $this->dlVoice($xml->MediaId);
             }
-            exit();
         }
 
         if($event=='subscribe'){
