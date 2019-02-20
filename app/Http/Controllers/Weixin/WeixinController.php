@@ -146,6 +146,7 @@ class WeixinController extends Controller
             echo "ok";
         }else{      //保存失败
             echo "no";
+            exit;
         }
 
     }
@@ -173,6 +174,7 @@ class WeixinController extends Controller
             echo "OK";
         }else{      //保存失败
             echo "NO";
+            exit;
         }
     }
 
