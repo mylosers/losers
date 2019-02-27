@@ -38,7 +38,7 @@ class WeixinController extends Controller
     /**
      * 接收微信服务器事件推送
      */
-    public function wxEvent()
+    /*public function wxEvent()
     {
         $data = file_get_contents("php://input");
 
@@ -110,9 +110,102 @@ class WeixinController extends Controller
                 $this->kefu01($openid,$xml->ToUserName);
             }
         }
+    }*/
 
+    /**
+     * 接收微信服务器事件推送
+     */
+    public function wxEvent()
+    {
+        $data = file_get_contents("php://input");
+
+
+        //解析XML
+        $xml = simplexml_load_string($data);        //将 xml字符串 转换成对象
+
+        //记录日志
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
+
+        $event = $xml->Event;                       //事件类型
+        $openid = $xml->FromUserName;               //用户openid
+
+
+        // 处理用户发送消息
+        if(isset($xml->MsgType)){
+            if($xml->MsgType=='text'){            //用户发送文本消息
+                $msg = $xml->Content;
+                //记录聊天消息
+
+                $data = [
+                    'msg'       => $xml->Content,
+                    'msgid'     => $xml->MsgId,
+                    'openid'    => $openid,
+                    'msg_type'  => 1        // 1用户发送消息 2客服发送消息
+                ];
+
+                $id = WeixinChatModel::insertGetId($data);
+                var_dump($id);
+                //$xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. $msg. date('Y-m-d H:i:s') .']]></Content></xml>';
+
+
+                //echo $xml_response;
+            }elseif($xml->MsgType=='image'){       //用户发送图片信息
+                //视业务需求是否需要下载保存图片
+                if(1){  //下载图片素材
+                    $file_name = $this->dlWxImg($xml->MediaId);
+                    $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. date('Y-m-d H:i:s') .']]></Content></xml>';
+                    echo $xml_response;
+
+                    //写入数据库
+                    $data = [
+                        'openid'    => $openid,
+                        'add_time'  => time(),
+                        'msg_type'  => 'image',
+                        'media_id'  => $xml->MediaId,
+                        'format'    => $xml->Format,
+                        'msg_id'    => $xml->MsgId,
+                        'local_file_name'   => $file_name
+                    ];
+
+                    $m_id = WeixinMedia::insertGetId($data);
+                    var_dump($m_id);
+                }
+            }elseif($xml->MsgType=='voice'){        //处理语音信息
+                $this->dlVoice($xml->MediaId);
+            }elseif($xml->MsgType=='event'){        //判断事件类型
+
+                if($event=='subscribe'){                        //扫码关注事件
+                    $sub_time = $xml->CreateTime;               //扫码关注时间
+                    //获取用户信息
+                    $user_info = $this->getUserInfo($openid);
+
+                    //保存用户信息
+                    $u = WeixinUser::where(['openid'=>$openid])->first();
+                    if($u){       //用户不存在
+                        //echo '用户已存在';
+                    }else{
+                        $user_data = [
+                            'openid'            => $openid,
+                            'add_time'          => time(),
+                            'nickname'          => $user_info['nickname'],
+                            'sex'               => $user_info['sex'],
+                            'headimgurl'        => $user_info['headimgurl'],
+                            'subscribe_time'    => $sub_time,
+                        ];
+
+                        $id = WeixinUser::insertGetId($user_data);      //保存用户信息
+                        //var_dump($id);
+                    }
+                }elseif($event=='CLICK'){               //click 菜单
+                    if($xml->EventKey=='kefu01'){       // 根据 EventKey判断菜单
+                        $this->kefu01($openid,$xml->ToUserName);
+                    }
+                }
+
+            }
+
+        }
     }
 
 
