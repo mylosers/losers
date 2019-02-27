@@ -501,7 +501,7 @@ class WeixinController extends Controller
     public function chatView()
     {
         $data = [
-            'openid'    => 'oLreB1jAnJFzV_8AGWUZlfuaoQto'
+            'openid'    => 'oRqEl1rmcayXz9Z7UzkapLaxv7AM'
         ];
         return view('weixin.chat',$data);
     }
