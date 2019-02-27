@@ -58,7 +58,7 @@ class WeixinController extends Controller
         if(isset($xml->MsgType)){
             if($xml->MsgType=='text'){            //用户发送文本消息
                 //记录聊天消息
-                $xml=$xml->Content;
+
                 $data = [
                     'text'       => $xml->Content,
                     'msgid'     => $xml->MsgId,
@@ -69,8 +69,10 @@ class WeixinController extends Controller
 
                 $id = WeixinChatModel::insertGetId($data);
                 var_dump($id);
-                $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. $msg. date('Y-m-d H:i:s') .']]></Content></xml>';
-                echo $xml_response;
+                //$xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. $msg. date('Y-m-d H:i:s') .']]></Content></xml>';
+
+
+                //echo $xml_response;
             }elseif($xml->MsgType=='image'){       //用户发送图片信息
                 //视业务需求是否需要下载保存图片
                 if(1){  //下载图片素材
