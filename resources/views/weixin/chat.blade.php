@@ -19,5 +19,5 @@
 @endsection
 @section('footer')
     @parent
-    <script src="../js/chat.js"></script>
+    <script src="http://laravel.myloser.club/js/chat.js"></script>
 @endsection

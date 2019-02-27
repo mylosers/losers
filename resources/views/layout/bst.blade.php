@@ -6,7 +6,7 @@
 
     <title>BootStrap</title>
 
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://laravel.myloser.club/css/bootstrap.min.css">
 </head>
 <body>
 
@@ -52,8 +52,8 @@
 </div>
 
 @section('footer')
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
+    <script src="http://laravel.myloser.club/js/jquery-3.3.1.min.js"></script>
+    <script src="http://laravel.myloser.club/js/bootstrap.min.js"></script>
 @show
 </body>
 </html>
