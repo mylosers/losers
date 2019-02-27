@@ -113,6 +113,7 @@ Route::post('/weixin/material','Weixin\WeixinController@materialTest');     //�
 //微信聊天
 Route::get('/weixin/kefu/chat','Weixin\WeixinController@chatView');     //客服聊天
 Route::get('/weixin/chat/get_msg','Weixin\WeixinController@getChatMsg');     //获取用户聊天信息
+Route::get('/weixin/chat/weixinChat','Weixin\WeixinController@weixinChat');
 
 
 //微信支付
