@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
 use GuzzleHttp;
 use Illuminate\Support\Facades\Storage;
+use App\Model\WeixinMedia;
+use App\Model\WeixinChatModel;
 
 class WeixinController extends Controller
 {
