@@ -11,7 +11,7 @@ class PayController extends Controller
 {
     public $weixin_unifiedorder_url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
     //通知回调
-     public $weixin_notify_url='https://dzh.wangby.cn/weixin/pay/notice';
+     public $weixin_notify_url='http://laravel.myloser.club/weixin/pay/notice';
     public function test($order_id)
     {
         $total_fee = 1;         //用户要支付的总金额
@@ -25,7 +25,7 @@ class PayController extends Controller
             'nonce_str'     => str_random(16),             // 随机字符串
             'sign_type'     => 'MD5',
             'body'          => '测试订单-'.mt_rand(1111,9999) . str_random(6),
-            'out_trade_no'  => $orderInfo['order_number'],                       //本地订单号
+            'out_trade_no'  => $orderInfo['order_sn'],                       //本地订单号
             'total_fee'     => $total_fee,
             'spbill_create_ip'  => $_SERVER['REMOTE_ADDR'],     //客户端IP
             'notify_url'    => $this->weixin_notify_url,        //通知回调地址
