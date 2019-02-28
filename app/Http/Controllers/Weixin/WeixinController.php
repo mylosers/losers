@@ -522,7 +522,7 @@ class WeixinController extends Controller
     /**
      * 微信客服聊天
      */
-    public function chatView()
+    public function fofa()
     {
         $data = [
             'openid'    => 'oRqEl1rmcayXz9Z7UzkapLaxv7AM'
@@ -530,26 +530,53 @@ class WeixinController extends Controller
         return view('weixin.chat',$data);
     }
 
-    public function getChatMsg()
-    {
-        $openid = $_GET['openid'];  //用户openid
-        $pos = $_GET['pos'];        //上次聊天位置
-        $msg = WeixinChatModel::where(['open_id'=>$openid])->where('id','>',$pos)->first();
-        //$msg = WeixinChatModel::where(['openid'=>$openid])->where('id','>',$pos)->get();
-        if($msg){
-            $response = [
-                'errno' => 0,
-                'data'  => $msg->toArray()
+    /*
+     * 用户关注客服私聊
+     */
+    public function wxpc(){
+        $info=WeixinUser::get()->toArray();//先查出数据
+//        var_dump($info);die;
+        $time=time();
+        if($time-$info['add_time']<172800){
+            $xxi=$this->getUserInfo($info['openid']);//获取用户信息
+            var_dump($xxi);die;
+        }
+    }
+    /*
+     * 处理表单
+     */
+    public function wxfofa(Request $request){
+        $openid=$_GET['openid'];//获取用户openid
+        $pos=$_GET['pos'];      //上次聊天位置
+        $data=WxTextModel::where(['openid'=>$openid])->where('id','>',$pos)->first();
+//        var_dump($data);die;
+        if($data){
+            $response=[
+                'errno'=>0,
+                'data' =>$data->toArray()
             ];
-
         }else{
-            $response = [
-                'errno' => 50001,
-                'msg'   => '服务器异常，请联系管理员'
+            $response=[
+                'errno'=>50001,
+                'msg'  =>'服务器异常，请联系管理员'
             ];
         }
-
-        die( json_encode($response));
-
+        die(json_encode($response));
+    }
+    /*
+     * 客服回复
+     */
+    public function wxfofado(Request $request){
+        $pos=$_GET['posd'];      //获取类型
+        $text=$_GET['text'];      //获取客户信息
+        $data=[
+            'text' =>$text,
+            'add_time'=>time(),
+            'msgid'=>'22206193063046754',
+            'openid'=>'op6u75nkpVJyjvSYR7qdJQzXZBvE',
+            'msg_type'=>0   //1、用户发送信息2、客服发送信息
+        ];
+        $id=WxTextModel::insertGetId($data);
+        var_dump($id);
     }
 }

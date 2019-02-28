@@ -87,7 +87,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //在线订座
 Route::get('/movie/seat','Movie\IndexController@index');
-
 //微信
 Route::get('/weixin/test/token','Weixin\WeixinController@test');
 Route::get('/weixin/valid','Weixin\WeixinController@validToken');
@@ -100,22 +99,22 @@ Route::get('/weixin/create_menu','Weixin\WeixinController@createMenu');     //�
 Route::get('/form/show','Weixin\WeixinController@formShow');     //表单测试
 Route::post('/form/test','Weixin\WeixinController@formTest');     //表单测试
 
-
-
-
 Route::get('/test/405','Weixin\WeixinController@http405');     //获取永久素材列表
-
 
 Route::get('/weixin/material/list','Weixin\WeixinController@materialList');     //获取永久素材列表
 Route::get('/weixin/material/upload','Weixin\WeixinController@upMaterial');     //上传永久素材
 Route::post('/weixin/material','Weixin\WeixinController@materialTest');     //创建菜单
 
-//微信聊天
-Route::get('/weixin/kefu/chat','Weixin\WeixinController@chatView');     //客服聊天
-Route::get('/weixin/chat/get_msg','Weixin\WeixinController@getChatMsg');     //获取用户聊天信息
-Route::get('/weixin/chat/weixinChat','Weixin\WeixinController@weixinChat');
-
-
+Route::get('/weixin/wxpc','weixin\WeixinController@wxpc');
+//聊天
+Route::get('/weixin/fofa','weixin\WeixinController@fofa');
+Route::get('/weixin/wxfofa','weixin\WeixinController@wxfofa');
+Route::get('/weixin/wxfofado','weixin\WeixinController@wxfofado');
 //微信支付
-Route::get('/weixin/pay/test','Weixin\PayController@test');     //微信支付测试
-Route::post('/weixin/pay/notice','Weixin\PayController@notice');     //微信支付通知回调
+Route::get('/weixin/firtest','weixin\WxpayController@firtest');
+Route::post('/weixin/notice','weixin\WxpayController@notice');
+
+Route::get('/weixin/pay/test/{order_name}','weixin\PaysController@test');     //微信支付测试
+Route::post('/weixin/pay/notice','weixin\PaysController@notice');     //微信支付通知回调
+Route::post('/weixin/pay/payweixin','weixin\PaysController@payweixin');     //微信支付通知回调
+Route::get('/weixin/pay/pay111','weixin\PaysController@pay111');     //微信支付通知回调
