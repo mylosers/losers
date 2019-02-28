@@ -491,7 +491,7 @@ class WeixinController extends Controller
     public function chatShow()
     {
         $data = [
-            'openid'    => 'o4Xdz5wnr4PR2dQs8BvzT0IV5vIw'
+            'openid'    => 'oRqEl1rmcayXz9Z7UzkapLaxv7AM'
         ];
 //        $where=['openid'=>$data];
 //        $info=WeixinUser::where($where)->first();
@@ -524,7 +524,7 @@ class WeixinController extends Controller
 //        var_dump($msg);die;
         $url='https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$this->getWXAccessToken();
         $data = [
-            'touser'       =>$openid,
+            'open_id'       =>$openid,
             'msgtype'      =>'text',
             'text'         =>[
                 'content'  =>$msg,
@@ -539,10 +539,10 @@ class WeixinController extends Controller
         //加入数据库
         if($arr['errcode']==0){
             $info = [
-                'msg_type'      =>  2,
+                'type'      =>  2,
                 'msg'   =>  $msg,
                 'msgid'     =>  0,
-                'openid'   =>  $openid,
+                'open_id'   =>  $openid,
             ];
             $id= WeixinChatModel::insertGetId($info);
 //            var_dump($id);die;
