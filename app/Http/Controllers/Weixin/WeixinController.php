@@ -502,7 +502,7 @@ class WeixinController extends Controller
     {
         $openid = $_GET['openid'];  //用户openid
         $pos = $_GET['pos'];        //上次聊天位置
-        $msg = WeixinChatModel::where(['openid'=>$openid])->where('id','>',$pos)->first();
+        $msg = WeixinChatModel::where(['open_id'=>$openid])->where('id','>',$pos)->first();
         //$msg = WeixinChatModel::where(['openid'=>$openid])->where('id','>',$pos)->get();
         if($msg){
             $response = [
