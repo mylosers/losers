@@ -16,7 +16,7 @@ class PayController extends Controller
     {
         $total_fee = 1;         //用户要支付的总金额
         $where=[
-          'order_id'=>$order_id
+          'oid'=>$order_id
        ];
         $orderInfo=OrderModel::where($where)->first();
         $order_info = [
