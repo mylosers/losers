@@ -390,193 +390,163 @@ class WeixinController extends Controller
         echo '<pre>';print_r($_FILES);echo '</pre>';
     }
 
-    /**
-     * 上传素材
-     */
-    public function upMaterial()
+    //微信群发
+    public function sendAll(Request $request)
     {
-        $url = 'https://api.weixin.qq.com/cgi-bin/material/add_material?access_token='.$this->getWXAccessToken().'&type=image';
-        $client = new GuzzleHttp\Client();
-        $response = $client->request('POST',$url,[
-            'multipart' => [
-                [
-                    'name'     => 'username',
-                    'contents' => 'zhangsan'
-                ],
-                [
-                    'name'     => 'media',
-                    'contents' => fopen('abc.jpg', 'r')
-                ],
+        $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . $this->getWXAccessToken();
+        $openid=$request->openid;
+        $message=$request->message;
+//        $wxUserInfo = WeixinUser::get()->toArray();
+        //var_dump($wxUserInfo);
+//        foreach ($wxUserInfo as $v) {
+//            $openid[] = $v['openid'];
+//        }
+        //print_r($openid);
+        //文本群发消息
+        $data = [
+            "touser" => $openid,
+            "msgtype" => "text",
+            "text" => [
+                "content" =>$message
             ]
-        ]);
-
-        $body = $response->getBody();
-        echo $body;echo '<hr>';
-        $d = json_decode($body,true);
-        echo '<pre>';print_r($d);echo '</pre>';
-
-
-    }
-
-
-
-    public function upMaterialTest($file_path)
-    {
-        $url = 'https://api.weixin.qq.com/cgi-bin/material/add_material?access_token='.$this->getWXAccessToken().'&type=image';
-        $client = new GuzzleHttp\Client();
-        $response = $client->request('POST',$url,[
-            'multipart' => [
-                [
-                    'name'     => 'media',
-                    'contents' => fopen($file_path, 'r')
-                ],
-            ]
-        ]);
-
-        $body = $response->getBody();
-        echo $body;echo '<hr>';
-        $d = json_decode($body,true);
-        echo '<pre>';print_r($d);echo '</pre>';
-
-
-    }
-
-
-    /**
-     * 获取永久素材列表
-     */
-    public function materialList()
-    {
-        $client = new GuzzleHttp\Client();
-        $type = $_GET['type'];
-        $offset = $_GET['offset'];
-
-        $url = 'https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token='.$this->getWXAccessToken();
-
-        $body = [
-            "type"      => $type,
-            "offset"    => $offset,
-            "count"     => 20
         ];
-        $response = $client->request('POST', $url, [
-            'body' => json_encode($body)
+        $client = new GuzzleHttp\Client();
+        $r = $client->request('POST', $url, [
+            'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
-
-        $body = $response->getBody();
-        echo $body;echo '<hr>';
-        $arr = json_decode($response->getBody(),true);
-        echo '<pre>';print_r($arr);echo '</pre>';
-
-
+        $respone_arr = json_decode($r->getBody(), true);
+        print_r($respone_arr);
+    }
+    //永久素材保存
+    public function upMaterialTest($file_path){
+        $url = 'https://api.weixin.qq.com/cgi-bin/material/add_material?access_token='.$this->getWXAccessToken().'&type=image';
+        $client=new GuzzleHttp\Client();
+        $response=$client->request('POST',$url,[
+            'multipart'=>[
+                [
+                    'name'=>'media',
+                    'contents'=>fopen($file_path,'r')
+                ],
+            ]
+        ]);
+        $body=$response->getBody();
+        $d=GuzzleHttp\json_decode($body,true);
+        print_r($d);
     }
 
-    public function http405()
-    {
-        echo __METHOD__;
-    }
-
-
-
-
-
+    //测试
     public function formShow()
     {
-
         return view('test.form');
-
     }
 
     public function formTest(Request $request)
     {
-        //echo '<pre>';print_r($_POST);echo '</pre>';echo '<hr>';
-        //echo '<pre>';print_r($_FILES);echo '</pre>';echo '<hr>';
-
-        //保存文件
         $img_file = $request->file('media');
-        //echo '<pre>';print_r($img_file);echo '</pre>';echo '<hr>';
-
+//       var_dump($img_file);
         $img_origin_name = $img_file->getClientOriginalName();
-        echo 'originName: '.$img_origin_name;echo '</br>';
-        $file_ext = $img_file->getClientOriginalExtension();          //获取文件扩展名
-        echo 'ext: '.$file_ext;echo '</br>';
-
-        //重命名
-        $new_file_name = str_random(15). '.'.$file_ext;
-        echo 'new_file_name: '.$new_file_name;echo '</br>';
-
+        var_dump($img_origin_name);
+        $file_ext = $img_file->getClientOriginalExtension();
+        var_dump($file_ext);
+        $new_file_name = str_random(15) . '.' . $file_ext;
+        var_dump($new_file_name);
         //文件保存路径
 
-
         //保存文件
-        $save_file_path = $img_file->storeAs('form_test',$new_file_name);       //返回保存成功之后的文件路径
+        $save_file_path = $request->media->storeAs('form_test', $new_file_name);
+        var_dump($save_file_path);
 
-        echo 'save_file_path: '.$save_file_path;echo '<hr>';
 
         //上传至微信永久素材
-        //$this->upMaterialTest($save_file_path);
+        $this->upMaterialTest($save_file_path);
+    }
 
+    //获取素材列表
+    public function fodder()
+    {
+        $access_token = $this->getWXAccessToken();
+        $url = 'https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=' . $access_token;
+        $data = [
+            'type' => 'image',
+            'offset' => 0,
+            'count' => 2
+        ];
+        $client = new GuzzleHttp\Client(['base_uri' => $url]);
+        $r = $client->request('POST', $url, [
+            'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
+        ]);
+        $respone_arr = json_decode($r->getBody(), true);
+        echo '<pre>';
+        print_r($respone_arr);
+        echo '</pre>';
 
     }
 
-
+    public function one(){
+        return  view('test.one');
+    }
     /**
      * 微信客服聊天
      */
-    public function fofa()
+    public function chatShow()
     {
         $data = [
-            'openid'    => 'oRqEl1rmcayXz9Z7UzkapLaxv7AM'
+            'openid'    => 'o4Xdz5wnr4PR2dQs8BvzT0IV5vIw'
         ];
+//        $where=['openid'=>$data];
+//        $info=WeixinUser::where($where)->first();
         return view('weixin.chat',$data);
     }
 
-    /*
-     * 用户关注客服私聊
-     */
-    public function wxpc(){
-        $info=WeixinUser::get()->toArray();//先查出数据
-//        var_dump($info);die;
-        $time=time();
-        if($time-$info['add_time']<172800){
-            $xxi=$this->getUserInfo($info['openid']);//获取用户信息
-            var_dump($xxi);die;
-        }
-    }
-    /*
-     * 处理表单
-     */
-    public function wxfofa(Request $request){
-        $openid=$_GET['openid'];//获取用户openid
-        $pos=$_GET['pos'];      //上次聊天位置
-        $data=WxTextModel::where(['openid'=>$openid])->where('id','>',$pos)->first();
-//        var_dump($data);die;
-        if($data){
-            $response=[
-                'errno'=>0,
-                'data' =>$data->toArray()
+    public function getChatMsg()
+    {
+        $openid = $_GET['openid'];  //用户openid
+        $pos = $_GET['pos'];        //上次聊天位置
+        $msg = WeixinChatModel::where(['openid'=>$openid])->where('id','>',$pos)->first();
+        //$msg = WeixinChatModel::where(['openid'=>$openid])->where('id','>',$pos)->get();
+        if($msg){
+            $response = [
+                'errno' => 0,
+                'data'  => $msg->toArray()
             ];
+
         }else{
-            $response=[
-                'errno'=>50001,
-                'msg'  =>'服务器异常，请联系管理员'
+            $response = [
+                'errno' => 50001,
+                'msg'   => '服务器异常，请联系管理员'
             ];
         }
-        die(json_encode($response));
+        die( json_encode($response));
     }
-    /*
-     * 客服回复
-     */
-    public function wxfofado(Request $request){
-        $pos=$_GET['posd'];      //获取类型
-        $text=$_GET['text'];      //获取客户信息
-        $data=[
-            'text' =>$text,
-            'add_time'=>time(),
-            'msgid'=>'22206193063046754',
-            'openid'=>'op6u75nkpVJyjvSYR7qdJQzXZBvE',
-            'msg_type'=>0   //1、用户发送信息2、客服发送信息
+    public  function  weixinChat(Request $request){
+        $openid=$request->input("openid");
+        $msg=$request->input("msg");
+//        var_dump($msg);die;
+        $url='https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$this->getWXAccessToken();
+        $data = [
+            'touser'       =>$openid,
+            'msgtype'      =>'text',
+            'text'         =>[
+                'content'  =>$msg,
+            ]
         ];
-        $id=WxTextModel::insertGetId($data);
-        var_dump($id);
+        $client = new GuzzleHttp\Client();
+        $response = $client->request('POST', $url, [
+            'body' => json_encode($data,JSON_UNESCAPED_UNICODE)
+        ]);
+        $body = $response->getBody();
+        $arr = json_decode($body,true);
+        //加入数据库
+        if($arr['errcode']==0){
+            $info = [
+                'msg_type'      =>  2,
+                'msg'   =>  $msg,
+                'msgid'     =>  0,
+                'openid'   =>  $openid,
+            ];
+            $id= WeixinChatModel::insertGetId($info);
+//            var_dump($id);die;
+        }
+        return $arr;
     }
 }
