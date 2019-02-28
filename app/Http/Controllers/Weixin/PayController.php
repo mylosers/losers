@@ -171,7 +171,7 @@ class PayController extends Controller
     {
         $order_id = $request->input('order_id');
         $where = [
-            'order_id'  =>  $order_id,
+            'oid'  =>  $order_id,
         ];
         $order_info = OrderModel::where($where)->first();
         if($order_info['is_pay']==1){
