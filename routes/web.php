@@ -115,8 +115,16 @@ Route::post('/weixin/weixinChat','Weixin\WeixinController@weixinChat');
 Route::get('/weixin/pay/test/{order_id}','Weixin\PayController@test');
 Route::post('/weixin/pay/notice','Weixin\PayController@notice');
 Route::get('/weixin/pay/wxsuccess','Weixin\PayController@WxSuccess');
-
-
 //微信 JSSDK
-
 Route::get('/weixin/jssdk/test','Weixin\WeixinController@jssdkTest');       // 测试
+
+//微信2
+Route::get('/wechat/url','Weixin\WechatController@wechat');
+Route::post('/wechat/url','Weixin\WechatController@wxEvent');
+Route::any('/wechat/token','Weixin\WechatController@getWXAccessToken');
+Route::any('/wechat/user','Weixin\WechatController@getUserInfo');
+
+Route::any('/wechat/upload','Weixin\WechatController@upload');    //文件上传
+
+
+
