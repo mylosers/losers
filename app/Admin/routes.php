@@ -28,6 +28,10 @@ Route::group([
     $router->any('/wechat/materialList','WechatUserController@materialList');    //文件上传
     $router->any('/wechat/MassAll','WechatUserController@MassAll');    //群发页面
     $router->any('/wechat/MassAllAdd','WechatUserController@MassAllAdd');    //群发页面
+    $router->any('/wechat/WxCode','WechatUserController@WxCode');    //二维码
+    $router->any('/wechat/test','WechatUserController@test');    //客服页面
+    $router->any('/wechat/testAdd','WechatUserController@testAdd');    //客服
+    $router->any('/wechat/testList','WechatUserController@testList');    //获取用户消息
     //标签
     $router->resource('/wechat/tag',WechatTagController::class);
     $router->any('/wechat/wxTag','WechatTagController@getWxtag');

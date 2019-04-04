@@ -8,7 +8,7 @@
                 <tr>
                     <td>{{$v['goods_name']}}  </td>
                     <td>¥ {{$v['goods_selfprice']}}</td>
-                    <td><a href="/goods/{{$v['goods_id']}}">加入购物车</a></td>
+                    <td><a href="/goods/{{$v['goods_id']}}">查看商品</a></td>
                 </tr>
             @endforeach
         </table>

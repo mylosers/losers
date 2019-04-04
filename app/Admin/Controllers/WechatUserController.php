@@ -13,6 +13,8 @@ use GuzzleHttp;
 use App\Http\Controllers\Weixin\WechatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+
 class WechatUserController extends Controller
 {
     use HasResourceActions;
@@ -580,5 +582,84 @@ class WechatUserController extends Controller
         $obj=new \url();
         $info=$obj->sendPost($url,$json);
         print_r($info);
+    }
+
+    /**
+     * 扫描二维码储存信息
+     */
+    public function WxCode(Content $content){
+            $obj=new \redis();
+            $obj->connect('127.0.0.1',6379);
+            $key='code2';
+            $arr=$obj->zRange($key,0,-1);
+            if(empty($arr)){
+                echo "不好意思，没有数据";die;
+            }
+            foreach($arr as $k=>$v){
+                $data[]=$obj->hGetAll($v);
+            }
+        return $content
+            ->header('二维码')
+            ->description('redis数据储存')
+            ->body(view('weixin.wxcode')->with("data",$data));
+    }
+
+    /**
+     * 客服页面
+     */
+    public function test(Content $content){
+        $access_token = $this->access_token();
+        $url = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token=' . $access_token . '&next_openid=';
+        $data = json_decode(file_get_contents($url), true);
+        $data = $data['data']['openid'];
+        return $content
+            ->header('微信')
+            ->description('客服发送')
+            ->body(view('weixin.kefu')->with('data',$data));
+    }
+
+    /**
+     * 消息查询
+     */
+    public function testList(){
+        $openid=$_POST['openid'];
+        $where=[
+            'openid'=>$openid
+        ];
+        $info=DB::table('kefu')->where($where)->get()->toArray();
+        return $info;
+    }
+
+    /**
+     * 客服发送
+     */
+    public function testAdd(){
+        $openid=$_POST['openid'];
+        $text=$_POST['text'];
+        $access_token=$this->access_token();
+        $url="https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=$access_token";
+        $arr=[
+            "touser"=>$openid,
+            "msgtype"=>"text",
+            'text'=>[
+                'content'=>$text
+            ]
+        ];
+        $str_arr=json_encode($arr,JSON_UNESCAPED_UNICODE);
+        $obj=new \url();
+        $info=$obj->sendPost($url,$str_arr);
+        if($info){
+            $time=time();
+            $data=[
+                'text'=>$text,
+                'c_time'=>$time,
+                'openid'=>$openid,
+                'status'=>1
+            ];
+            $user_info=DB::table('kefu')->insert($data);
+            if($user_info){
+                return "ok";
+            }
+        }
     }
 }

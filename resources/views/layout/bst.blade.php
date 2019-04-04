@@ -35,6 +35,8 @@
                             <li><a href="/order">我的订单</a></li>
                             <li><a href="#">待收货</a></li>
                             <li><a href="/user">个人中心</a></li>
+                            <li><a href="/orderListAdd">支付订单列表</a></li>
+                            <li><a href="/numGoods">浏览记录列表</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">Nav header</li>
                             <li><a href="#">Separated link</a></li>

@@ -15,7 +15,12 @@ class test
      */
     public function handle($request, Closure $next)
     {
-        echo date('Y-m-d');echo '</br>';
+        if(!$request->session()->get('openid')){
+//            dd($request->session()->get('u_token'));
+            header('Refresh:2;url=/logins');
+            echo '请先登录';
+            exit;
+        }
         return $next($request);
     }
 }

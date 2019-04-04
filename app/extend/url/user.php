@@ -1,5 +1,5 @@
 <?php
-class url{
+class user{
 	function sendGet($str){
 		$ch = curl_init();
 		curl_setopt($ch,CURLOPT_URL, $str);

@@ -77,4 +77,16 @@ class OrderController extends Controller
         ];
         return view('goods.order',$data);
     }
+
+    /**
+     * 订单展示
+     */
+    public function orderListAdd(){
+        $list = OrderModel::where(['is_pay'=>1])->get()->toArray();
+        $data = [
+            'list'  => $list
+        ];
+        return view('goods.orderlist',$data);
+
+    }
 }

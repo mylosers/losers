@@ -15,10 +15,11 @@ class checkLoginToken
      */
     public function handle($request, Closure $next)
     {
-        if(!$request->session()->get('u_token')){
-            header('Refresh:2;url=/login');
-            echo '请先登录';
-            exit;
+        if($request->session()->get('u_token')==""){
+            echo $request->session()->get('u_token');
+//            header('Refresh:2;url=/logins');
+//            echo '请先登录';
+//            exit;
         }
         return $next($request);
     }

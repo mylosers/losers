@@ -42,18 +42,19 @@ Route::any('/one','Order\IndexController@one');
 //布局测试
 Route::any('/layout','Order\LayouController@layout');
 //注册
-Route::any('/request','User\UserController@request');
+Route::any('/request','User\UserController@request')->middleware('test');
 Route::any('/requestAdd','User\UserController@requestAdd');
 //退出
 Route::any('/exit','User\UserController@exits');
 //登陆
-Route::any('/login','User\UserController@login');
+Route::any('/logins','User\UserController@login');
+Route::any('/result','User\UserController@result');
 Route::any('/loginAdd','User\UserController@loginAdd');
 Route::any('/loginIndex','User\UserController@index');
 //boot测试
 Route::any('/bst','Order\MvcController@bst');
 //中间件
-Route::any('/test','Vip\TestController@test')->middleware('test');
+//Route::any('/test','Vip\TestController@test')->middleware('test');
 
 //请先登陆
 Route::any('/user','User\UserController@index');
@@ -71,8 +72,10 @@ Route::any('/goodsAdd','Cart\IndexController@goodsAdd');      //添加商品
 Route::any('/number','Cart\IndexController@number');      //判断库存
 Route::any('/goods/{goods_id}','Cart\IndexController@goods');      //添加商品
 Route::any('/goodsDel/{goods_id}','Cart\IndexController@del');      //删除商品
+Route::any('/numGoods','Cart\IndexController@numGoods');      //查询浏览记录
 //订单
 Route::any('/order','Cart\OrderController@orderList');           //订单列表
+Route::any('/orderListAdd','Cart\OrderController@orderListAdd');           //订单列表展示
 Route::any('/orderAdd','Cart\OrderController@add');           //下单
 //支付
 Route::any('/pay/{oid}','Pay\AlipayController@pay');
@@ -119,12 +122,28 @@ Route::get('/weixin/pay/wxsuccess','Weixin\PayController@WxSuccess');
 Route::get('/weixin/jssdk/test','Weixin\WeixinController@jssdkTest');       // 测试
 
 //微信2
-Route::get('/wechat/url','Weixin\WechatController@wechat');
-Route::post('/wechat/url','Weixin\WechatController@wxEvent');
+/*Route::get('/wechat/url','Weixin\WechatController@wechat');
+Route::post('/wechat/url','Weixin\WechatController@wxEvent');*/
 Route::any('/wechat/token','Weixin\WechatController@getWXAccessToken');
 Route::any('/wechat/user','Weixin\WechatController@getUserInfo');
 
 Route::any('/wechat/upload','Weixin\WechatController@upload');    //文件上传
+Route::any('/wechat/code','Weixin\WechatController@code');    //文件上传
+
+
+
+Route::any('/barrage','Index\indexController@barrage');    //定时器页面
+Route::any('/timeInfo','Index\indexController@timeInfo');    //定时传值
+Route::any('/barrageList','Index\indexController@barrageList');    //页面
+
+
+Route::any('/wechat/PayCode','Weixin\WechatController@PayCode');    //支付二维码
+Route::any('/wechat/PayCodeAdd','Weixin\WechatController@PayCodeAdd');    //支付二维码回调
+
+Route::any('/kaoshi/access_token','Weixin\kaoshiController@access_token');    //考试微信接口access_token
+Route::post('/wechat/url','Weixin\kaoshiController@wxEvent');   //接入
+Route::any('/kaoshi/userInfo','Weixin\kaoshiController@userInfo');   //用户信息
+Route::any('/kaoshi/tianqi','Weixin\kaoshiController@tianqi');   //天气接口
 
 
 
